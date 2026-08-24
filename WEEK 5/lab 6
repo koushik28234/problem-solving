@@ -1,0 +1,143 @@
+import java.util.*;
+
+class Ride {
+    int rideId;
+    String passenger;
+    String driver;
+    String pickup;
+    String destination;
+    double fare;
+    String status;
+
+    Ride(int rideId, String passenger, String pickup, String destination) {
+        this.rideId = rideId;
+        this.passenger = passenger;
+        this.pickup = pickup;
+        this.destination = destination;
+        this.status = "Requested";
+    }
+
+    void assignDriver(String driver) {
+        this.driver = driver;
+        this.status = "Driver Assigned";
+    }
+
+    void startRide() {
+        if (driver != null) {
+            status = "Ride Started";
+        }
+    }
+
+    void completeRide() {
+        fare = 100 + Math.random() * 200;
+        status = "Completed";
+    }
+
+    void displayRide() {
+        System.out.println("\n--- Ride Details ---");
+        System.out.println("Ride ID      : " + rideId);
+        System.out.println("Passenger    : " + passenger);
+        System.out.println("Driver       : " + driver);
+        System.out.println("Pickup       : " + pickup);
+        System.out.println("Destination  : " + destination);
+        System.out.println("Fare         : Rs." + String.format("%.2f", fare));
+        System.out.println("Status       : " + status);
+    }
+}
+
+public class RideSharingPlatform {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("=================================");
+        System.out.println("     RIDE SHARING PLATFORM");
+        System.out.println("=================================");
+
+        System.out.print("Enter passenger name: ");
+        String passenger = sc.nextLine();
+
+        System.out.print("Enter pickup location: ");
+        String pickup = sc.nextLine();
+
+        System.out.print("Enter destination: ");
+        String destination = sc.nextLine();
+
+        Ride ride = new Ride(101, passenger, pickup, destination);
+
+        System.out.println("\nRide requested successfully!");
+        ride.displayRide();
+
+        System.out.print("\nEnter driver name: ");
+        String driver = sc.nextLine();
+
+        ride.assignDriver(driver);
+
+        System.out.println("\nDriver assigned successfully!");
+        ride.displayRide();
+
+        ride.startRide();
+
+        System.out.println("\nRide has started...");
+        ride.displayRide();
+
+        ride.completeRide();
+
+        System.out.println("\nRide completed successfully!");
+        ride.displayRide();
+
+        sc.close();
+    }
+}
+=================================
+     RIDE SHARING PLATFORM
+=================================
+Enter passenger name: Koushik
+Enter pickup location: Ambattur
+Enter destination: Anna Nagar
+
+Ride requested successfully!
+
+--- Ride Details ---
+Ride ID      : 101
+Passenger    : Koushik
+Driver       : null
+Pickup       : Ambattur
+Destination  : Anna Nagar
+Fare         : Rs.0.00
+Status       : Requested
+
+Enter driver name: Arun
+
+Driver assigned successfully!
+
+--- Ride Details ---
+Ride ID      : 101
+Passenger    : Koushik
+Driver       : Arun
+Pickup       : Ambattur
+Destination  : Anna Nagar
+Fare         : Rs.0.00
+Status       : Driver Assigned
+
+Ride has started...
+
+--- Ride Details ---
+Ride ID      : 101
+Passenger    : Koushik
+Driver       : Arun
+Pickup       : Ambattur
+Destination  : Anna Nagar
+Fare         : Rs.0.00
+Status       : Ride Started
+
+Ride completed successfully!
+
+--- Ride Details ---
+Ride ID      : 101
+Passenger    : Koushik
+Driver       : Arun
+Pickup       : Ambattur
+Destination  : Anna Nagar
+Fare         : Rs.247.36
+Status       : Completed
