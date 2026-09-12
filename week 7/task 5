@@ -1,0 +1,54 @@
+import java.util.*;
+
+class BrowserHistory {
+
+    private List<String> history;
+    private int current;
+
+    public BrowserHistory(String homepage) {
+        history = new ArrayList<>();
+        history.add(homepage);
+        current = 0;
+    }
+
+    public void visit(String url) {
+        // Remove all forward history
+        while (history.size() > current + 1) {
+            history.remove(history.size() - 1);
+        }
+
+        history.add(url);
+        current++;
+    }
+
+    public String back(int steps) {
+        current = Math.max(0, current - steps);
+        return history.get(current);
+    }
+
+    public String forward(int steps) {
+        current = Math.min(history.size() - 1, current + steps);
+        return history.get(current);
+    }
+}
+BrowserHistory browserHistory = new BrowserHistory("leetcode.com");
+
+browserHistory.visit("google.com");
+browserHistory.visit("facebook.com");
+browserHistory.visit("youtube.com");
+
+browserHistory.back(1);
+browserHistory.back(1);
+browserHistory.forward(1);
+
+browserHistory.visit("linkedin.com");
+
+browserHistory.forward(2);
+browserHistory.back(2);
+browserHistory.back(7);
+facebook.com
+google.com
+facebook.com
+linkedin.com
+linkedin.com
+google.com
