@@ -1,0 +1,98 @@
+import java.util.*;
+
+class Student {
+    private int id;
+    private String name;
+    private double cgpa;
+
+    public Student(int id, String name, double cgpa) {
+        this.id = id;
+        this.name = name;
+        this.cgpa = cgpa;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getCGPA() {
+        return cgpa;
+    }
+}
+
+class StudentComparator implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2) {
+        // Higher CGPA first
+        int result = Double.compare(s2.getCGPA(), s1.getCGPA());
+
+        // If CGPA is same, name in alphabetical order
+        if (result == 0) {
+            result = s1.getName().compareTo(s2.getName());
+        }
+
+        // If name is same, lower ID first
+        if (result == 0) {
+            result = Integer.compare(s1.getID(), s2.getID());
+        }
+
+        return result;
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        PriorityQueue<Student> pq =
+            new PriorityQueue<>(new StudentComparator());
+
+        for (int i = 0; i < n; i++) {
+            String event = sc.next();
+
+            if (event.equals("ENTER")) {
+                String name = sc.next();
+                double cgpa = sc.nextDouble();
+                int id = sc.nextInt();
+
+                pq.add(new Student(id, name, cgpa));
+            } else if (event.equals("SERVED")) {
+                if (!pq.isEmpty()) {
+                    pq.poll();
+                }
+            }
+        }
+
+        if (pq.isEmpty()) {
+            System.out.println("EMPTY");
+        } else {
+            List<Student> students = new ArrayList<>(pq);
+            Collections.sort(students, new StudentComparator());
+
+            for (Student s : students) {
+                System.out.println(s.getName());
+            }
+        }
+
+        sc.close();
+    }
+}
+12
+ENTER John 3.75 50
+ENTER Mark 3.8 24
+ENTER Shafa 3.9 30
+ENTER Priya 3.8 15
+SERVED
+ENTER David 3.7 20
+SERVED
+ENTER Alex 3.9 10
+SERVED
+ENTER Tom 3.6 5
+SERVED
+SERVED
+SERVED
